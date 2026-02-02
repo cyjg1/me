@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project "Polymath" v2 — The Pragmatic Visionary</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;600&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+    :root {
+      color-scheme: dark;
+      --bg: #080b12;
+      --bg-deep: #05070c;
+      --surface: rgba(16, 20, 32, 0.78);
+      --surface-strong: rgba(20, 24, 40, 0.92);
+      --stroke: rgba(110, 130, 160, 0.35);
+      --glow: rgba(92, 180, 255, 0.35);
+      --accent: #5cd1ff;
+      --accent-2: #ff9f6e;
+      --accent-3: #7ee787;
+      --text: #f1f5ff;
+      --muted: #b7c3d6;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --body: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --display: "Space Grotesk", "Noto Sans SC", sans-serif;
+      --radius: 18px;
+      --shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+      --transition: 220ms ease;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: var(--body);
+      color: var(--text);
+      background: radial-gradient(circle at top, rgba(40, 70, 110, 0.35), transparent 45%),
+        radial-gradient(circle at 20% 20%, rgba(66, 180, 255, 0.2), transparent 38%),
+        radial-gradient(circle at 80% 0%, rgba(255, 159, 110, 0.12), transparent 30%),
+        linear-gradient(135deg, #05070c, #0b1220 55%, #0a101c 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background: radial-gradient(circle at 20% 30%, rgba(92, 209, 255, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(126, 231, 135, 0.08), transparent 45%);
+      opacity: 0.8;
+    }
+
+    body::after {
+      background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mix-blend-mode: screen;
+      opacity: 0.2;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(92vw, var(--max-width));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(6, 10, 16, 0.7);
+      border-bottom: 1px solid rgba(120, 140, 170, 0.2);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      font-family: var(--display);
+      font-size: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      padding: 8px 12px;
+      min-height: 44px;
+      min-width: 44px;
+      border-radius: 999px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+      background: rgba(92, 209, 255, 0.16);
+    }
+
+    .hero {
+      padding: 80px 0 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+      gap: 48px;
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 540px;
+      margin-bottom: 20px;
+    }
+
+    .hero-quote {
+      font-family: var(--display);
+      font-size: clamp(18px, 2vw, 24px);
+      color: var(--text);
+      background: linear-gradient(120deg, rgba(92, 209, 255, 0.2), transparent);
+      padding: 12px 16px;
+      border-left: 3px solid var(--accent);
+      margin: 24px 0;
+    }
+
+    .pillars {
+      display: grid;
+      gap: 14px;
+    }
+
+    .pillar {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .pillar h3 {
+      font-family: var(--display);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .pillar p {
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+
+    .engine-card {
+      background: linear-gradient(145deg, rgba(20, 30, 44, 0.9), rgba(10, 14, 24, 0.9));
+      border-radius: 26px;
+      border: 1px solid rgba(120, 150, 190, 0.35);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 460px;
+      outline: none;
+    }
+
+    .engine-card:focus-visible {
+      box-shadow: 0 0 0 2px rgba(92, 209, 255, 0.8), var(--shadow);
+    }
+
+    .engine-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .engine-title {
+      font-family: var(--display);
+      font-size: 18px;
+    }
+
+    .engine-badge {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent-3);
+      background: rgba(126, 231, 135, 0.15);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .engine-core {
+      position: relative;
+      display: grid;
+      place-items: center;
+      margin: 10px 0 24px;
+    }
+
+    .engine-svg {
+      width: min(92%, 360px);
+      height: auto;
+      transition: var(--transition);
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.4));
+    }
+
+    .engine-svg .gear {
+      animation: spin 18s linear infinite;
+      transform-box: fill-box;
+    }
+
+    .engine-svg .gear-small {
+      animation-duration: 12s;
+      animation-direction: reverse;
+    }
+
+    .engine-svg .gear-small-alt {
+      animation-duration: 14s;
+    }
+
+    .engine-svg .gear-small-2 {
+      animation-duration: 16s;
+      animation-direction: reverse;
+    }
+
+    .engine-code {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      gap: 10px;
+      padding: 36px 28px;
+      opacity: 0;
+      transition: var(--transition);
+      font-family: var(--mono);
+      color: rgba(92, 209, 255, 0.85);
+    }
+
+    .code-line {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .code-line span {
+      display: inline-block;
+      animation: flow 6s linear infinite;
+    }
+
+    .code-line:nth-child(2) span { animation-duration: 7s; }
+    .code-line:nth-child(3) span { animation-duration: 5.5s; }
+    .code-line:nth-child(4) span { animation-duration: 8s; }
+    .code-line:nth-child(5) span { animation-duration: 6.5s; }
+    .code-line:nth-child(6) span { animation-duration: 7.5s; }
+
+    .engine-card:is(:hover, :focus-within) .engine-svg {
+      opacity: 0.2;
+      transform: scale(0.95);
+    }
+
+    .engine-card:is(:hover, :focus-within) .engine-code {
+      opacity: 1;
+    }
+
+    .engine-details {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .engine-details span {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--mono);
+    }
+
+    details.easter-egg {
+      margin-top: 18px;
+      background: rgba(8, 12, 20, 0.7);
+      border: 1px solid rgba(92, 209, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    details.easter-egg summary {
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--accent);
+      list-style: none;
+    }
+
+    details.easter-egg summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .fan-panel {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: center;
+    }
+
+    .fan {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+    }
+
+    .fan.is-spinning {
+      animation: spin 1.2s linear infinite;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      padding: 12px 18px;
+      min-height: 44px;
+      min-width: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(92, 209, 255, 0.5);
+      background: rgba(92, 209, 255, 0.12);
+      color: var(--text);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      background: rgba(92, 209, 255, 0.24);
+      box-shadow: 0 0 0 2px rgba(92, 209, 255, 0.3);
+    }
+
+    section {
+      padding: 80px 0 20px;
+      position: relative;
+      scroll-margin-top: 90px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(24px, 3vw, 34px);
+      margin-bottom: 12px;
+    }
+
+    .layer-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .stack-line {
+      position: absolute;
+      left: 20px;
+      top: 90px;
+      bottom: 40px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), transparent 70%);
+      opacity: 0.5;
+    }
+
+    .section-card {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .timeline-item {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 90px 1fr;
+      align-items: start;
+    }
+
+    .timeline-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-3);
+      background: rgba(126, 231, 135, 0.12);
+      padding: 6px 8px;
+      border-radius: 999px;
+      text-align: center;
+      border: 1px solid rgba(126, 231, 135, 0.28);
+    }
+
+    .timeline-item h4 {
+      font-size: 16px;
+      font-family: var(--display);
+      margin-bottom: 6px;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .lab-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin-top: 24px;
+    }
+
+    .lab-card {
+      background: rgba(8, 12, 22, 0.8);
+      border-radius: 14px;
+      border: 1px solid rgba(100, 130, 170, 0.25);
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .screen-record {
+      height: 180px;
+      border-radius: 12px;
+      background: linear-gradient(130deg, rgba(92, 209, 255, 0.2), rgba(12, 18, 32, 0.9)),
+        repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px 14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen-record::after {
+      content: "Prompt → Code";
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .case-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+
+    .mockup-card {
+      background: rgba(11, 16, 26, 0.9);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(92, 209, 255, 0.25);
+    }
+
+    .mockup-screen {
+      background: #0f1524;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .mockup-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .mockup-menu {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mockup-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+    }
+
+    .case-content h4 {
+      font-family: var(--display);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .case-content p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .case-process {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin-top: 20px;
+    }
+
+    .process-doc,
+    .process-arch {
+      background: rgba(9, 14, 24, 0.9);
+      border: 1px solid rgba(110, 130, 160, 0.3);
+      border-radius: 14px;
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #c8d6ea;
+    }
+
+    .process-doc pre {
+      white-space: pre-wrap;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(92, 209, 255, 0.4);
+      color: var(--accent);
+      background: rgba(92, 209, 255, 0.12);
+    }
+
+    .archive-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+
+    .video-card {
+      background: rgba(10, 15, 26, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .video-player {
+      width: 100%;
+      height: 240px;
+      display: block;
+      object-fit: cover;
+      background: #0b0f17;
+    }
+
+    .video-meta {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .video-meta h4 {
+      font-family: var(--display);
+      font-size: 18px;
+    }
+
+    .video-meta p,
+    .video-meta li {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ai-stack {
+      display: grid;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .footer {
+      padding: 60px 0 80px;
+      border-top: 1px solid rgba(120, 140, 170, 0.2);
+      margin-top: 60px;
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      align-items: center;
+    }
+
+    .qr-card {
+      background: rgba(11, 16, 26, 0.9);
+      border: 1px solid rgba(110, 130, 160, 0.3);
+      padding: 18px;
+      border-radius: 16px;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .signal {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent-3);
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .signal::after {
+      content: "";
+      width: 10px;
+      height: 18px;
+      background: var(--accent-3);
+      display: inline-block;
+      animation: blink 1s step-end infinite;
+    }
+
+    .footer a {
+      color: var(--accent);
+    }
+
+    .footer a:hover,
+    .footer a:focus-visible {
+      color: #8be3ff;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes flow {
+      from { transform: translateX(-12%); }
+      to { transform: translateX(12%); }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    @media (max-width: 860px) {
+      .stack-line { display: none; }
+      header { position: static; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">Project "Polymath" v2</div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#engine">Engine</a>
+        <a href="#lab">Lab</a>
+        <a href="#workshop">Workshop</a>
+        <a href="#archive">Archive</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="engine" class="container hero">
+      <div>
+        <div class="eyebrow">The Pragmatic Visionary</div>
+        <h1>从代码到生活，构建可以被感知的秩序。</h1>
+        <p>Project "Polymath" v2 是一位工程师、产品构建者与父亲的个人数字分身。逻辑先行，产品落地，情感归档。</p>
+        <div class="hero-quote">“Automating the Future, Coding for Love.”</div>
+        <div class="pillars">
+          <div class="pillar">
+            <h3>左手代码 (Logic)</h3>
+            <p>自动化背景、SVG 可视化、国企严谨的工程思维。</p>
+          </div>
+          <div class="pillar">
+            <h3>右手产品 (Product)</h3>
+            <p>解决真实生活问题，点餐小程序、Vibe Coding 实践。</p>
+          </div>
+          <div class="pillar">
+            <h3>内心生活 (Life)</h3>
+            <p>记录女儿成长的温情，用 AI 视频制作留住时间。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="engine-card" tabindex="0" aria-label="The Engine interactive module">
+        <div class="engine-header">
+          <div class="engine-title">The Engine</div>
+          <div class="engine-badge">SVG / Automation</div>
+        </div>
+        <div class="engine-core">
+          <svg class="engine-svg" viewBox="0 0 400 400" role="img" aria-label="Mechanical engine">
+            <defs>
+              <linearGradient id="gearGlow" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#5cd1ff" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#7ee787" stop-opacity="0.3" />
+              </linearGradient>
+            </defs>
+            <g class="gear gear-main" style="transform-origin: 200px 200px;">
+              <circle cx="200" cy="200" r="120" stroke="url(#gearGlow)" stroke-width="6" fill="none" stroke-dasharray="8 12" />
+              <circle cx="200" cy="200" r="90" stroke="#7a8aa8" stroke-width="3" fill="none" />
+              <line x1="200" y1="80" x2="200" y2="140" stroke="#7a8aa8" stroke-width="3" />
+              <line x1="200" y1="320" x2="200" y2="260" stroke="#7a8aa8" stroke-width="3" />
+              <line x1="80" y1="200" x2="140" y2="200" stroke="#7a8aa8" stroke-width="3" />
+              <line x1="320" y1="200" x2="260" y2="200" stroke="#7a8aa8" stroke-width="3" />
+            </g>
+            <g class="gear gear-small" style="transform-origin: 120px 120px;">
+              <circle cx="120" cy="120" r="50" stroke="#5cd1ff" stroke-width="4" fill="none" stroke-dasharray="6 8" />
+              <circle cx="120" cy="120" r="28" stroke="#7a8aa8" stroke-width="2" fill="none" />
+            </g>
+            <g class="gear gear-small-alt" style="transform-origin: 285px 115px;">
+              <circle cx="285" cy="115" r="46" stroke="#ff9f6e" stroke-width="4" fill="none" stroke-dasharray="6 10" />
+              <circle cx="285" cy="115" r="24" stroke="#7a8aa8" stroke-width="2" fill="none" />
+            </g>
+            <g class="gear gear-small-2" style="transform-origin: 300px 290px;">
+              <circle cx="300" cy="290" r="42" stroke="#7ee787" stroke-width="4" fill="none" stroke-dasharray="5 9" />
+              <circle cx="300" cy="290" r="22" stroke="#7a8aa8" stroke-width="2" fill="none" />
+            </g>
+            <path d="M120 120 L200 200 L285 115" stroke="#5a6a85" stroke-width="2" fill="none" />
+            <path d="M200 200 L300 290" stroke="#5a6a85" stroke-width="2" fill="none" />
+            <circle cx="200" cy="200" r="12" fill="#5cd1ff" />
+            <circle cx="120" cy="120" r="8" fill="#5cd1ff" />
+            <circle cx="285" cy="115" r="8" fill="#ff9f6e" />
+            <circle cx="300" cy="290" r="8" fill="#7ee787" />
+          </svg>
+
+          <div class="engine-code" aria-hidden="true">
+            <div class="code-line"><span>const engine = automate({ logic: 'precise', heart: 'warm' });</span></div>
+            <div class="code-line"><span>svg.animate('gear').sync().then(streamCode);</span></div>
+            <div class="code-line"><span>pipeline.layer('product').merge(realLifeNeeds);</span></div>
+            <div class="code-line"><span>prompt('家庭点餐').toPrototype().deploy();</span></div>
+            <div class="code-line"><span>archive.record('女儿成长', { ai: true });</span></div>
+            <div class="code-line"><span>return vision.pragmatic().ready();</span></div>
+          </div>
+        </div>
+
+        <div class="engine-details">
+          <span>Automation Core</span>
+          <span>SVG Kinetics</span>
+          <span>From Code to Life</span>
+        </div>
+
+        <details class="easter-egg">
+          <summary>Maintenance Panel · Fan Diagnostics</summary>
+          <div class="fan-panel">
+            <svg class="fan" viewBox="0 0 120 120" role="img" aria-label="SVG fan" data-fan>
+              <circle cx="60" cy="60" r="54" fill="rgba(92, 209, 255, 0.1)" stroke="rgba(92, 209, 255, 0.5)" stroke-width="2" />
+              <circle cx="60" cy="60" r="10" fill="#5cd1ff" />
+              <path d="M60 16 C74 18, 78 36, 68 48 C58 60, 40 58, 38 42 C36 26, 46 18, 60 16" fill="rgba(92, 209, 255, 0.35)" />
+              <path d="M104 60 C102 74, 84 78, 72 68 C60 58, 62 40, 78 38 C94 36, 102 46, 104 60" fill="rgba(255, 159, 110, 0.35)" />
+              <path d="M60 104 C46 102, 42 84, 52 72 C62 60, 80 62, 82 78 C84 94, 74 102, 60 104" fill="rgba(126, 231, 135, 0.35)" />
+              <path d="M16 60 C18 46, 36 42, 48 52 C60 62, 58 80, 42 82 C26 84, 18 74, 16 60" fill="rgba(92, 209, 255, 0.25)" />
+            </svg>
+            <button class="btn" type="button" data-fan-toggle aria-pressed="false">Start Fan</button>
+            <p class="hint" style="color: var(--muted); font-size: 12px;">低音量白噪音将随风扇启动。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="lab">
+      <div class="stack-line"></div>
+      <div class="container">
+        <div class="layer-tag">Layer 01 · Code</div>
+        <h2 class="section-title">The Lab · 技术实验室</h2>
+        <p class="section-subtitle">从严谨工程，到新型协作方式，逐层构建能力底座。</p>
+
+        <div class="section-card">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-tag">Phase 01</div>
+              <div>
+                <h4>自动化系协作 · 工程化思维</h4>
+                <p>控制与自动化系统实践，强调可验证流程与安全冗余。</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-tag">Phase 02</div>
+              <div>
+                <h4>国企项目经验 · 严谨交付</h4>
+                <p>大型项目协同、需求闭环与系统级测试文化。</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-tag">Phase 03</div>
+              <div>
+                <h4>博士申请方向 · 智能自动化</h4>
+                <p>聚焦工业智能、复杂系统优化与人机协作。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-grid">
+            <div class="lab-card">
+              <h4 style="font-family: var(--display);">Vibe Coding 探索</h4>
+              <p style="color: var(--muted); font-size: 14px;">社区比赛作品与公开 Demo，展示自然语言驱动的开发节奏。</p>
+              <a class="btn" href="https://github.com/cyjg1" target="_blank" rel="noreferrer">Open Project</a>
+            </div>
+            <div class="lab-card">
+              <h4 style="font-family: var(--display);">Prompt → Code 录屏</h4>
+              <div class="screen-record" aria-label="Prompt to code screen recording"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workshop">
+      <div class="stack-line"></div>
+      <div class="container">
+        <div class="layer-tag">Layer 02 · Product</div>
+        <h2 class="section-title">The Workshop · 造物车间</h2>
+        <p class="section-subtitle">真实问题驱动的产品故事：家庭点餐小程序。</p>
+
+        <div class="section-card">
+          <div class="case-grid">
+            <div class="mockup-card">
+              <div class="mockup-screen">
+                <div class="mockup-bar">
+                  <span>Family Meal</span>
+                  <span>19:30</span>
+                </div>
+                <div class="mockup-menu">
+                  <div class="mockup-item"><span>今日推荐 · 番茄牛腩</span><span>12 min</span></div>
+                  <div class="mockup-item"><span>家人偏好 · 清淡/少油</span><span>3 votes</span></div>
+                  <div class="mockup-item"><span>一键下单 · 附近餐馆</span><span>4 options</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="case-content">
+              <h4>Problem</h4>
+              <p>家人吃饭点餐难，不知道吃什么，沟通成本高。</p>
+              <h4>Solution</h4>
+              <p>以轻量小程序呈现偏好、推荐与下单路径，统一家庭决策。</p>
+              <h4>Process</h4>
+              <p>从需求洞察到 PRD、再到架构设计，确保功能可落地可迭代。</p>
+              <div class="tag-row">
+                <span class="tag">#VibeCoding</span>
+                <span class="tag">#React</span>
+                <span class="tag">#WeChatMiniProgram</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-process">
+            <div class="process-doc">
+              <pre>
+PRD 摘要
+- 目标用户：家庭成员
+- 关键路径：偏好收集 → 推荐 → 投票 → 下单
+- 成功指标：决策时间 -40%，复购 +20%
+- 迭代节奏：每周一次功能升级
+              </pre>
+            </div>
+            <div class="process-arch">
+              <svg viewBox="0 0 420 180" role="img" aria-label="Architecture diagram">
+                <rect x="20" y="40" width="110" height="60" rx="10" fill="rgba(92, 209, 255, 0.2)" stroke="rgba(92, 209, 255, 0.6)" />
+                <rect x="160" y="40" width="110" height="60" rx="10" fill="rgba(255, 159, 110, 0.2)" stroke="rgba(255, 159, 110, 0.6)" />
+                <rect x="300" y="40" width="100" height="60" rx="10" fill="rgba(126, 231, 135, 0.2)" stroke="rgba(126, 231, 135, 0.6)" />
+                <text x="75" y="75" text-anchor="middle" font-size="12" fill="#e8f1ff" font-family="IBM Plex Mono">Mini UI</text>
+                <text x="215" y="75" text-anchor="middle" font-size="12" fill="#e8f1ff" font-family="IBM Plex Mono">API Hub</text>
+                <text x="350" y="75" text-anchor="middle" font-size="12" fill="#e8f1ff" font-family="IBM Plex Mono">Preference</text>
+                <line x1="130" y1="70" x2="160" y2="70" stroke="#7a8aa8" stroke-width="2" />
+                <line x1="270" y1="70" x2="300" y2="70" stroke="#7a8aa8" stroke-width="2" />
+                <circle cx="145" cy="70" r="4" fill="#7a8aa8" />
+                <circle cx="285" cy="70" r="4" fill="#7a8aa8" />
+                <text x="210" y="130" text-anchor="middle" font-size="11" fill="#b7c3d6" font-family="IBM Plex Mono">Recommendation Engine</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive">
+      <div class="stack-line"></div>
+      <div class="container">
+        <div class="layer-tag">Layer 03 · Life</div>
+        <h2 class="section-title">The Archive · 时光档案</h2>
+        <p class="section-subtitle">把爱与技术留在同一份时间线里。</p>
+
+        <div class="section-card">
+          <div class="archive-grid">
+            <div class="video-card">
+              <video class="video-player" controls preload="metadata" playsinline aria-label="时光档案视频">
+                <source src="assets/真的不改了.mp4" type="video/mp4" />
+                抱歉，当前浏览器不支持播放该视频。
+              </video>
+              <div class="video-meta">
+                <h4>《时光把点滴汇成航线》</h4>
+                <p>AI 视频纪录女儿成长，保留每一次温柔的变化。</p>
+              </div>
+            </div>
+            <div class="video-meta" style="background: rgba(9, 14, 24, 0.9); border-radius: 18px; border: 1px solid rgba(110, 130, 160, 0.3);">
+              <h4>AI 制作流程</h4>
+              <ul class="ai-stack">
+                <li>Leonardo / Midjourney：风格化图像生成。</li>
+                <li>Runway：镜头衔接与节奏剪辑。</li>
+                <li>本地脚本：素材归档、版本管理与字幕生成。</li>
+              </ul>
+              <p>技术让情感表达更可复用，也更可传承。</p>
+              <a class="btn" href="#" style="justify-self: start;">阅读《一年的记录》</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3 style="font-family: var(--display); margin-bottom: 12px;">Contact & Signal</h3>
+        <p style="color: var(--muted); margin-bottom: 12px;">Github: <a href="https://github.com/cyjg1" target="_blank" rel="noreferrer">github.com/cyjg1</a></p>
+        <div class="signal">System Running... Waiting for next input.</div>
+      </div>
+      <div class="qr-card">
+        <img src="assets/img_v3_02uh_b15e81a5-dde6-4844-a7c2-938fa356719g.jpg" alt="公众号二维码" />
+        <p style="color: var(--muted); font-size: 13px; text-align: center;">扫码获取 Blog / 公众号内容</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const engineCard = document.querySelector('.engine-card');
+    const engineSvg = document.querySelector('.engine-svg');
+
+    if (!prefersReducedMotion && engineCard && engineSvg) {
+      engineCard.addEventListener('mousemove', (event) => {
+        const rect = engineCard.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        engineSvg.style.transform = `translate(${x * 8}px, ${y * 8}px)`;
+      });
+
+      engineCard.addEventListener('mouseleave', () => {
+        engineSvg.style.transform = 'translate(0, 0)';
+      });
+    }
+
+    const fanToggle = document.querySelector('[data-fan-toggle]');
+    const fan = document.querySelector('[data-fan]');
+    let audioCtx = null;
+    let noiseSource = null;
+    let gainNode = null;
+
+    const startNoise = () => {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const bufferSize = audioCtx.sampleRate * 2;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i += 1) {
+        data[i] = (Math.random() * 2 - 1) * 0.2;
+      }
+      noiseSource = audioCtx.createBufferSource();
+      noiseSource.buffer = buffer;
+      noiseSource.loop = true;
+      gainNode = audioCtx.createGain();
+      gainNode.gain.value = 0.025;
+      noiseSource.connect(gainNode).connect(audioCtx.destination);
+      noiseSource.start();
+    };
+
+    const stopNoise = () => {
+      if (noiseSource) {
+        noiseSource.stop();
+        noiseSource.disconnect();
+        noiseSource = null;
+      }
+      if (audioCtx) {
+        audioCtx.close();
+        audioCtx = null;
+      }
+    };
+
+    if (fanToggle && fan) {
+      fanToggle.addEventListener('click', () => {
+        const isOn = fanToggle.getAttribute('aria-pressed') === 'true';
+        if (isOn) {
+          fanToggle.setAttribute('aria-pressed', 'false');
+          fanToggle.textContent = 'Start Fan';
+          fan.classList.remove('is-spinning');
+          stopNoise();
+        } else {
+          fanToggle.setAttribute('aria-pressed', 'true');
+          fanToggle.textContent = 'Stop Fan';
+          fan.classList.add('is-spinning');
+          if (!prefersReducedMotion) {
+            startNoise();
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -612,12 +612,24 @@
       overflow: hidden;
     }
 
-    .video-player {
-      width: 100%;
+    .video-cover {
       height: 240px;
-      display: block;
-      object-fit: cover;
-      background: #0b0f17;
+      background: linear-gradient(130deg, rgba(255, 159, 110, 0.2), rgba(8, 12, 20, 0.9)),
+        radial-gradient(circle at 20% 30%, rgba(92, 209, 255, 0.2), transparent 55%);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .video-placeholder {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--text);
+      background: rgba(8, 12, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 14px;
+      border-radius: 999px;
     }
 
     .video-meta {
@@ -956,10 +968,9 @@ PRD 摘要
         <div class="section-card">
           <div class="archive-grid">
             <div class="video-card">
-              <video class="video-player" controls preload="metadata" playsinline aria-label="时光档案视频">
-                <source src="assets/真的不改了.mp4" type="video/mp4" />
-                抱歉，当前浏览器不支持播放该视频。
-              </video>
+              <div class="video-cover" aria-label="时光档案视频占位">
+                <div class="video-placeholder">视频待上传</div>
+              </div>
               <div class="video-meta">
                 <h4>《时光把点滴汇成航线》</h4>
                 <p>AI 视频纪录女儿成长，保留每一次温柔的变化。</p>
